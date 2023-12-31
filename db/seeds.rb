@@ -7,3 +7,17 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+20.times do
+  short_link = ShortLink.create(
+    original_url: "http://example.com/#{SecureRandom.hex}",
+    password: SecureRandom.hex(10),
+    link_opened: rand(10),
+    link_opened_last_time_at: rand(1..2).months.ago,
+    created_at: rand(1..2).months.ago,
+    updated_at: rand(1..2).months.ago
+  )
+  short_link.short_url = SecureRandom.uuid[0..5]
+  short_link.save!
+end
+
