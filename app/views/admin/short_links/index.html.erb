@@ -1,0 +1,59 @@
+<div data-controller="short_links">
+  <h1>Service: short link</h1>
+
+  <h2>Create short link</h2>
+
+  <%= form_with(model: ShortLink.new, url: admin_short_links_path, method: :post, local: true, remote: true) do |form| %>
+    <%= form.label :original_url, 'Original URL' %>
+    <%= form.text_field :original_url , required: true %>
+    <%= form.submit 'Create short link' %>
+  <% end %>
+
+  <h2>Search by original url</h2>
+
+  <%= form_with(url: admin_short_links_path, method: :get, local: true) do |form| %>
+    <div>
+      <%= form.label :search, 'Search' %>
+      <%= form.text_field :search %>
+      <%= form.submit 'Search' %>
+    </div>
+  <% end %>
+
+  <% old_visit_short_links_count = ShortLink.where("link_opened_last_time_at <= ?", Time.now - 2.months).count %>
+  <% if old_visit_short_links_count != 0 %>
+    <p style="text-align: right; color: red">We have links with zero visiting for last 2 month</p>
+    <p style="text-align: right"><%= link_to "Cleanup (#{old_visit_short_links_count}) links with zero visiting for last 2 month", admin_cleanup_path, method: :get %></p>
+  <% end %>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Short URL</th>
+      <th>Original URL</th>
+      <th>Link Opened</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @short_links.each do |short_link| %>
+      <tr>
+        <td><%= short_link.id %></td>
+        <!-- TODO: fix updating UI visit counter when clicked on button -->
+        <td><%= link_to short_link.short_url, url_for(controller: 'admin/short_links', action: 'show', id: short_link.short_url, only_path: false), target: "_blank" %></td>
+        <td><%= link_to short_link.original_url, short_link.original_url, target: "_blank" %></td>
+        <td><%= short_link.link_opened %></td>
+        <td><%= button_to 'Delete', admin_short_link_path(short_link), method: :delete, remote: true %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <% if @short_links.empty? %>
+    <p>No links yet.</p>
+  <% else %>
+    <div>
+      <span><%= pagy_nav(@pagy).html_safe %></span>
+      <p class="center">Pagination (5 items per page)</p>
+    </div>
+  <% end %>
+</div>

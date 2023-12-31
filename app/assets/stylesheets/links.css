@@ -1,0 +1,52 @@
+/* global */
+h1 {
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    color: #333;
+}
+
+.center {
+    text-align: center;
+}
+
+form div {
+    margin-bottom: 1em;
+}
+
+/* table */
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+table th:nth-child(1), table td:nth-child(1) {
+    width: 5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+table td {
+    vertical-align: top;
+}
+
+.pagy-nav {
+    margin: 1rem auto; text-align: center;
+}
+.pagy-nav a {
+    text-decoration: none;
+}
